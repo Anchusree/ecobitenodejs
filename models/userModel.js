@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     },
     profileImage:{
         type:String, 
-        default:"https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
+        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcS6u9S3dVJwjgZ0wef6qbEBT9ZTJu_NEXGhVNNvmz3A&s"
     },
     role:{
         type:String, 
