@@ -92,7 +92,7 @@ exports.getAllRestaurantsAndMenus = async (req, res) => {
 
 exports.getAllMenusByRestaurant = async (req, res) => {
     try {
-        console.log("menusByrest")
+        //console.log("menusByrest")
         const id = req.params.id
         const today = new Date();
         today.setHours(0, 0, 0, 0);

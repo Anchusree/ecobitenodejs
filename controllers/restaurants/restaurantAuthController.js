@@ -180,10 +180,12 @@ exports.restaurantResetPassword = async(req,res)=>{
             { new: true }
         )
         if(updatedUser){
-            console.log("paswd updated")
+            return res.status(200).json({ message: 'Success' });
         }
-        return res.status(200).json({ message: 'Success' });
-            
+        else{
+            return res.status(400).json({ message: 'Something went wrong' });
+        }
+          
        }
         
     }
@@ -235,7 +237,7 @@ exports.getRestaurantProfile = async(req,res)=>{
 }
 
 exports.updateRestHour =async (req,res)=>{
-    console.log("updaterest")
+    // console.log("updaterest") 
 
     const restId = req.body.restId
     const from = req.body.from

@@ -4,18 +4,36 @@ const Restaurant = require("../../models/restaurantModel")
 
 
 exports.blockAndUnblockRestaurant = async (req, res) => {
-    const id = req.params.id
-    let findRestaurant = await Restaurant.findById(id)
-    if (findRestaurant.isBlocked === 1) {//if its already blocked make it unblock
-        let unblockRestaurant = await Restaurant.findByIdAndUpdate(
-            { _id: id }, { isBlocked: 0 }, { new: true })
-        res.status(200).json({ message: "Success", msg: "Unblocked Successfully" })
+
+    try {
+        const id = req.params.id
+        let findRestaurant = await Restaurant.findById(id)
+        if (findRestaurant.isBlocked === 1) {//if its already blocked make it unblock
+            let unblockRestaurant = await Restaurant.findByIdAndUpdate(
+                { _id: id }, { isBlocked: 0 }, { new: true })
+            if(unblockRestaurant){
+                res.status(200).json({ message: "Success", msg: "Unblocked Successfully" })
+            }
+            else{
+                res.status(400).json({ message: "Success", msg: "Unblocked Successfully" })
+            }
+            
+        }
+        else { //if its already unblocked make it blocked
+            let blockRestaurant = await Restaurant.findByIdAndUpdate(
+                { _id: req.params.id }, { isBlocked: 1 }, { new: true })
+            if(blockRestaurant){
+                res.status(200).json({ message: "Success", msg: "Blocked Successfully" })
+            }
+            else{
+                res.status(400).json({ message: "Success", msg: "Unblocked Successfully" })
+            }
+        }
+        
+    } catch (error) {
+        console.log(error)
     }
-    else { //if its already unblocked make it blocked
-        let blockRestaurant = await Restaurant.findByIdAndUpdate(
-            { _id: req.body.id }, { isBlocked: 1 }, { new: true })
-        res.status(200).json({ message: "Success", msg: "Blocked Successfully" })
-    }
+    
 }
 
 exports.acceptRestaurant = async (req, res) => {

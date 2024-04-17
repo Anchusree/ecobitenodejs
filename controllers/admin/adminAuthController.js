@@ -115,13 +115,13 @@ exports.getAdminProfile = async(req,res)=>{
     })
 }
 
-exports.adminUpdatePassword = (req,res)=>{
+exports.adminUpdatePassword = async(req,res)=>{
 
     const newPassword = req.body.newPassword
     const id = req.body.id
-    const hashNewpassword = bcrypt.hash(newPassword, 10)
+    const hashNewpassword = await bcrypt.hash(newPassword, 10)
 
-    User.findByIdAndUpdate(id,{password:hashNewpassword},{new:true})
+    await User.findByIdAndUpdate(id,{password:hashNewpassword},{new:true})
     .then((usr)=>{
         res.status(200).json({
             message:"Success",
@@ -133,6 +133,14 @@ exports.adminUpdateEmail = async(req,res)=>{
     const email = req.body.email
     const id = req.body.id
    const updateUser = await User.findByIdAndUpdate(id,{email:email},{new:true})
+   if(updateUser){
+    res.status(200).json({message:"Success",msg:"Updated Email"})
+   }
+   else{
+    res.status(400).json({message:"Somehing went wrong"})
+   }
 
-   res.status(200).json({message:"Success",msg:"Updated Email"})
+ 
 }
+
+

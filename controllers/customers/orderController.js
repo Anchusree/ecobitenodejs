@@ -116,7 +116,9 @@ exports.addOrder = async (req, res) => {
                     notificationType: 2
                 })
                 await addNotificationToUser.save()
-                await sendPushNotification(userId, "Order placed successfully.", "Your order has been received.Your order is preparing.", expotoken);
+                await sendPushNotification(userId, 
+                    `${savedOrder._id} Order placed successfully.`, 
+                    "Your order has been received.Your order is preparing.", expotoken);
 
 
                 const findRest = await Restaurant.find({ _id: restaurantId })
@@ -158,42 +160,42 @@ exports.cancelOrder = async (req, res) => {
             console.log("cart status changed")
         }
 
-        // const findOrder = await Order.find({ "_id": orderId, "cart_id": cartId })
-        // // console.log(findOrder, "findordr")
-        // if (findOrder) {
+        const findOrder = await Order.find({ "_id": orderId, "cart_id": cartId })
+        // console.log(findOrder, "findordr")
+        if (findOrder) {
 
-        //     const orderStatus = [
-        //         {
-        //             status: "Preparing",
-        //             isCompleted: false
-        //         },
-        //         {
-        //             status: "Ready",
-        //             isCompleted: false
-        //         },
-        //         {
-        //             status: "Cancelled",
-        //             date: new Date(),
-        //             isCompleted: true
-        //         },
-        //         {
-        //             status: "Completed",
-        //             date: new Date(),
-        //             isCompleted: false
-        //         }
-        //     ];
+            const orderStatus = [
+                {
+                    status: "Preparing",
+                    isCompleted: false
+                },
+                {
+                    status: "Ready",
+                    isCompleted: false
+                },
+                {
+                    status: "Cancelled",
+                    date: new Date(),
+                    isCompleted: true
+                },
+                {
+                    status: "Completed",
+                    date: new Date(),
+                    isCompleted: false
+                }
+            ];
 
-        //     const updateOrder = await Order.findOneAndUpdate({ "_id": orderId, "cart_id": cartId },
-        //         { $set: { "order_status": orderStatus, "current_status": "cancelled" } },
-        //         { new: true })
-        //     if (updateOrder) {
-        //         res.status(200).json({ message: "Success", updateOrder })
-        //     }
-        //     else {
-        //         res.status(400).json({ message: "Order not found" })
-        //     }
+            const updateOrder = await Order.findOneAndUpdate({ "_id": orderId, "cart_id": cartId },
+                { $set: { "order_status": orderStatus, "current_status": "cancelled" } },
+                { new: true })
+            if (updateOrder) {
+                res.status(200).json({ message: "Success", updateOrder })
+            }
+            else {
+                res.status(400).json({ message: "Order not found" })
+            }
 
-        // }
+        }
 
     } catch (error) {
         // Handle any errors that occur during the process

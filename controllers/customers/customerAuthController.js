@@ -1,4 +1,5 @@
 const User = require("../../models/userModel")
+const Notification = require("../../models/notificationModel")
 const bcrypt = require("bcrypt")
 const shortId = require('shortid')
 const crypto = require("crypto")
@@ -16,10 +17,12 @@ exports.registerCustomer = async (req, res) => {
 
     await User.findOne({ email: email }) //find if the email exist in database
         .then((savedUser) => {
+            // console.log(savedUser,"savedUser")
             if (savedUser) {
                 return res.status(422).json({ message: "This email already exists" })
             }
-            else {
+            if(!savedUser) {
+                console.log("new user")
                 bcrypt.hash(password, 10)
                     .then(hashed => {
                         const _user = new User({
@@ -45,7 +48,8 @@ exports.registerCustomer = async (req, res) => {
                            
                            
                             return res.status(201).json({
-                                message: "Registered Successfully"
+                                message:"Success",
+                                msg: "Registered Successfully"
                             })
                         }
 
@@ -172,10 +176,8 @@ exports.getCustomerProfile = async (req, res) => {
 }
 
 exports.updateProfile = async (req,res) =>{
-
     const {userId,email,name} = req.body
-
-    const userUpdate =  await User.findOneAndUpdate(userId,{email,name},{new:true})
+    const userUpdate =  await User.findOneAndUpdate({"_id":userId},{email,name},{new:true})
     if(userUpdate){
         res.status(200).json({
             message: "Success"

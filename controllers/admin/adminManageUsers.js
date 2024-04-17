@@ -89,7 +89,18 @@ exports.manageNotofications = async(req,res)=>{
         console.error('Error:', error);
         return res.status(500).json({ error: 'Internal server error' });
       }
+}
 
+exports.custDeleteUser =async(req,res)=>{
 
+  const id = req.body.id
+
+  const customerDelete = await User.findByIdAndDelete(id)
+  if(customerDelete){
+      res.status(200).json({message:"Success",msg:"Customer Deleted"})
+  }
+  else{
+      res.status(400).json({message:"Success",msg:"Something went wrong"})
+  }
 
 }

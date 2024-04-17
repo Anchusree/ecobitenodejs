@@ -17,7 +17,7 @@ exports.getOrderLists = async (req, res) => {
         //find prepared order lists
         const preparedLists = await Order.find({
             "restaurant_id": restaurantId, // Check if the restaurantId exists in the restaurants array
-            "current_status":"pending",
+            "current_status": "pending",
             "order_status": {
                 "$elemMatch": {
                     "status": "Preparing",
@@ -40,7 +40,6 @@ exports.getOrderLists = async (req, res) => {
         //find ready order lists
         const readyLists = await Order.find({
             "restaurant_id": restaurantId,
-            "current_status":"completed",
             "order_status": {
                 "$elemMatch": {
                     "status": "Ready",
@@ -59,7 +58,6 @@ exports.getOrderLists = async (req, res) => {
         //find cancelled order lists
         const cancelledLists = await Order.find({
             "restaurant_id": restaurantId,
-            "current_status": "cancelled",
             "order_status": {
                 "$elemMatch": {
                     "status": "Cancelled",

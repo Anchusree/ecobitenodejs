@@ -21,7 +21,6 @@ exports.getCategory = async (req,res)=>{
 exports.addCategory = async (req,res)=>{
     try {
         let {categoryName, restaurant_id} = req.body
-        //console.log(req.body,"bdy")
         if(!categoryName || !restaurant_id){
             return res.status(400).json({message:"Please fill all the fields"})
         }
@@ -49,9 +48,7 @@ exports.addCategory = async (req,res)=>{
 }
 
 exports.editCategory = async(req,res)=>{
-    console.log("bck");
     let {categoryName, restaurant_id,categoryId} = req.body
-    console.log(req.body,"bdy");
     
     let findCategoryUpdate = await Category.findByIdAndUpdate(categoryId,{
         category_name:categoryName,

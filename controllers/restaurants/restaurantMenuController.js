@@ -64,7 +64,6 @@ exports.addMenu = async (req, res) => {
 
 exports.editMenu = async (req, res) => {
 
-    console.log(req.body,"bdy")
     const findMenu = await Menu.findByIdAndUpdate(req.body.menuId, req.body, { new: true })
     if (findMenu) {
         return res.status(201).json({ message: "Success", results: findMenu })
