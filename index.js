@@ -30,6 +30,7 @@ app.get("/",(req,res)=>{
     res.status(200).send({
         "success":true,"msg":"node server running"
 })
+})
 
 // Define the cron job to update restaurant status
 cron.schedule('* * * * * *', async () => { // Runs every 1 minutes
