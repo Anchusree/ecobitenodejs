@@ -92,10 +92,12 @@ exports.deleteCategory = async(req,res) => {
 }
 
 exports.restDashboard=async(req,res)=>{
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     const restaurant_id = req.params.id
-    const menuCount = await Menu.countDocuments({ restaurant_id:restaurant_id })
-    const orderCount = await Order.countDocuments({restaurant_id:restaurant_id})
+    const menuCount = await Menu.countDocuments({ restaurant_id:restaurant_id,  createdAt: { $gte: today }  })
+    const orderCount = await Order.countDocuments({restaurant_id:restaurant_id,createdAt: { $gte: today } })
     const rest = await Restaurant.find({"_id":restaurant_id})
     const ratingCount = rest && rest[0].rating.length
     //const totalEarnings = rest && rest[0].total_earnings

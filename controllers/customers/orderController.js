@@ -271,7 +271,7 @@ exports.getAllOrders = async (req, res) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const orderList = await Order.find({ "user_id": userId, "current_status": "pending" })
+    const orderList = await Order.find({ "user_id": userId, "current_status": "pending", createdAt:{ $gte: today } })
         .populate({
             path: 'cart_id',
             populate: {
@@ -280,6 +280,7 @@ exports.getAllOrders = async (req, res) => {
         })
         .populate('restaurant_id', 'restaurantName open_close_status open_close_time')
         .sort({ order_date: -1 }); // Sorting by orderDate in descending order (latest first)
+        
     //console.log(orderList, "orderList")
 
 
